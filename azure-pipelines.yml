@@ -22,7 +22,6 @@ steps:
     artifactName: 'ipas' 
     publishLocation: 'Container'
 
-#MAST PLUGIN PART
 - task: KryptowireMAST@1
   continueOnError: true
   inputs:
