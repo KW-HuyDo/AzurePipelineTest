@@ -1,0 +1,39 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+- task: CopyFiles@2
+  inputs:
+    contents: 'SampleApplication.ipa'
+    targetFolder: '$(build.artifactStagingDirectory)'
+    overWrite: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathtoPublish: '$(build.artifactStagingDirectory)/output/$(sdk)/$(configuration)' 
+    artifactName: 'ipas' 
+    publishLocation: 'Container'
+
+#MAST PLUGIN PART
+- task: KryptowireMAST@1
+  continueOnError: true
+  inputs:
+    filepath: SampleApplication.ipa
+    apikey: $(API_KEY)
+    platform: 'ios'
+    resultsDir: '$(Build.ArtifactStagingDirectory)/KryptowireResults'
+    maxAnalysisTime: 60
+    scoreThreshold: 70
+    
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)/KryptowireResults'
+    artifactName: 'KryptowireResults'
+    artifactType: 'container'
