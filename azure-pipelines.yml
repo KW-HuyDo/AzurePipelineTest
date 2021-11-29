@@ -29,7 +29,7 @@ steps:
     apikey: $(API_KEY)
     platform: 'ios'
     resultsDir: '$(Pipeline.Workspace)/KryptowireResults'
-    maxAnalysisTime: 60
+    maxAnalysisTime: 0
     scoreThreshold: 70
     
 - task: PublishPipelineArtifact@1
