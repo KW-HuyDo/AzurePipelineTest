@@ -23,17 +23,16 @@ steps:
     publishLocation: 'Container'
 
 - task: KryptowireMAST@1
-  continueOnError: true
   inputs:
     filepath: SampleApplication.ipa
     apikey: $(API_KEY)
     platform: 'ios'
-    resultsDir: '$(Pipeline.Workspace)/KryptowireResults'
+    resultsDir: '$(Common.TestResultsDirectory)/KryptowireResults'
     maxAnalysisTime: 60
     scoreThreshold: 90
     
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)/KryptowireResults'
+    targetPath: '$(Common.TestResultsDirectory)/KryptowireResults'
     artifact: 'KryptowireResults'
     publishLocation: 'pipeline'
